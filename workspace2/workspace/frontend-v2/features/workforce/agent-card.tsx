@@ -1,0 +1,4 @@
+"use client";
+import { motion } from "framer-motion";
+import type { WorkforceAgent } from "./types";
+export function AgentCard({ agent, selected, onSelect }: { agent: WorkforceAgent; selected: boolean; onSelect: () => void }) { const health = agent.health?.score; return <motion.button layout initial={{ opacity: 0 }} animate={{ opacity: 1 }} className={`agent-card ${agent.lifecycle} ${selected ? "selected" : ""}`} onClick={onSelect}><span className="agent-state">{agent.lifecycle}</span><strong>{agent.name}</strong><small>{agent.kind}</small><dl><div><dt>Health</dt><dd>{health === undefined ? "Unavailable" : `${Math.round(health * 100)}%`}</dd></div><div><dt>Task</dt><dd>{agent.current_task ?? "None"}</dd></div><div><dt>Queue</dt><dd>{agent.health?.queue_size ?? "Unavailable"}</dd></div></dl></motion.button>; }

@@ -1,0 +1,192 @@
+/* ==========================================================================
+   AI WORKFORCE CENTER
+   The agent cards, hierarchy tree, and communication log had no styles at all,
+   so their <span>/<strong>/<dl> content ran together on one line -- that is the
+   "Total agents0" collision from the screenshots.
+   ========================================================================== */
+.workforce-dashboard { padding: 20px 24px 40px; }
+.workforce-dashboard > header > div { min-width: 0; }
+.workforce-dashboard > header button { flex: 0 0 auto; white-space: nowrap; }
+.workforce-unavailable { margin: 0; color: var(--text-muted); font-size: 12px; line-height: 1.55; }
+
+/* Swarm dispatch bar ------------------------------------------------------- */
+.workforce-dispatch {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; align-items: end;
+  margin: 0 0 14px; padding: 14px 16px; border: 1px solid var(--border-color);
+  border-radius: 12px; background: var(--surface-raised); box-shadow: var(--shadow-sm);
+}
+.workforce-dispatch label { display: grid; gap: 5px; min-width: 0; font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: .04em; }
+.workforce-dispatch input {
+  width: 100%; min-width: 0; padding: 8px 10px; border: 1px solid var(--border-color);
+  border-radius: 8px; background: var(--bg-input); color: var(--text-main);
+  font-family: inherit; font-size: 13px; font-weight: 400; text-transform: none; letter-spacing: normal;
+}
+.workforce-dispatch input:focus { outline: 0; border-color: var(--border-focus); box-shadow: 0 0 0 3px color-mix(in srgb, var(--border-focus) 22%, transparent); }
+.workforce-dispatch button {
+  display: inline-flex; flex: 0 0 auto; align-items: center; gap: 6px; padding: 9px 15px;
+  border: 1px solid transparent; border-radius: 8px; background: var(--accent-primary);
+  color: #fff; font-size: 12px; font-weight: 600; white-space: nowrap; cursor: pointer;
+}
+.workforce-dispatch button:hover:not(:disabled) { filter: brightness(1.07); }
+.workforce-dispatch button:disabled { opacity: .55; cursor: not-allowed; }
+.workforce-dispatch > p { grid-column: 1 / -1; }
+
+/* Per-agent lifecycle controls + broadcast --------------------------------- */
+.agent-actions { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0 0; }
+.agent-actions button {
+  padding: 5px 11px; border: 1px solid var(--border-color); border-radius: 999px;
+  background: var(--bg-card); color: var(--text-secondary);
+  font-size: 11px; font-weight: 600; text-transform: capitalize; white-space: nowrap; cursor: pointer;
+}
+.agent-actions button:hover:not(:disabled) { border-color: var(--border-focus); background: var(--bg-pill); color: var(--text-main); }
+.agent-actions button:disabled { opacity: .5; cursor: progress; }
+
+.agent-broadcast { display: flex; gap: 6px; margin: 8px 0 0; }
+.agent-broadcast input {
+  flex: 1; min-width: 0; padding: 7px 10px; border: 1px solid var(--border-color);
+  border-radius: 8px; background: var(--bg-input); color: var(--text-main); font-size: 12px;
+}
+.agent-broadcast input:focus { outline: 0; border-color: var(--border-focus); }
+.agent-broadcast button {
+  flex: 0 0 auto; padding: 7px 12px; border: 1px solid var(--border-color); border-radius: 8px;
+  background: var(--bg-card); color: var(--text-main); font-size: 11px; font-weight: 600; white-space: nowrap; cursor: pointer;
+}
+.agent-broadcast button:hover:not(:disabled) { background: var(--bg-pill); }
+.agent-broadcast button:disabled { opacity: .5; cursor: not-allowed; }
+
+/* The orchestrator's role brief -- prose, so it must not inherit the chip
+   flex-wrap layout that .agent-details section otherwise applies. */
+.agent-brief { display: block !important; margin-top: 12px; padding: 10px 12px; border-radius: 8px; background: var(--surface-inset); border: 1px solid var(--border-subtle); }
+.agent-brief h4 { margin: 0 0 4px; }
+.agent-brief p { margin: 0; color: var(--text-secondary); font-size: 11px; line-height: 1.55; overflow-wrap: anywhere; }
+
+/* Swarm task queue --------------------------------------------------------- */
+.swarm-tasks { display: grid; gap: 5px; margin: 0; padding: 0; max-height: 220px; overflow-y: auto; list-style: none; }
+.swarm-tasks li {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px; min-width: 0;
+  padding: 7px 9px; border: 1px solid var(--border-subtle); border-radius: 7px; background: var(--surface-inset);
+}
+.swarm-tasks strong { min-width: 0; color: var(--text-main); font-size: 11px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.swarm-tasks span {
+  flex: 0 0 auto; padding: 2px 8px; border-radius: 999px;
+  background: var(--status-idle-bg); color: var(--status-idle-text); font-size: 10px; font-weight: 600; text-transform: capitalize;
+}
+
+.workforce-layout { grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr) minmax(0, 1fr); align-items: start; }
+.agent-grid-panel, .agent-details, .workforce-layout > aside { min-width: 0; }
+.workforce-layout > aside { display: grid; gap: 0; }
+
+/* Agent grid --------------------------------------------------------------- */
+.agent-grid-panel > header { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 10px; }
+.agent-grid-panel > header label {
+  display: flex; flex: 1 1 140px; min-width: 0; align-items: center; gap: 6px;
+  padding: 7px 9px; border: 1px solid var(--border-color); border-radius: 7px;
+  background: var(--bg-input); color: var(--text-muted);
+}
+.agent-grid-panel > header input { width: 100%; min-width: 0; border: 0; outline: 0; background: transparent; color: var(--text-main); font-size: 12px; }
+.agent-grid-panel > header select {
+  flex: 0 0 auto; max-width: 130px; padding: 7px 8px; border: 1px solid var(--border-color);
+  border-radius: 7px; background: var(--bg-input); color: var(--text-main); font-size: 12px;
+}
+.agent-grid-panel > header > span { flex: 0 0 auto; color: var(--text-muted); font-size: 11px; font-variant-numeric: tabular-nums; }
+
+.agent-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 8px; max-height: 560px; overflow-y: auto; padding-right: 2px; }
+.agent-card { display: grid; gap: 3px; min-width: 0; }
+.agent-card > span { justify-self: start; }
+.agent-card strong { font-size: 13px; font-weight: 600; color: var(--text-main); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.agent-card small { color: var(--text-muted); font-size: 10px; text-transform: capitalize; }
+.agent-card dl { display: grid; gap: 4px; margin: 7px 0 0; }
+.agent-card dl div { display: flex; justify-content: space-between; gap: 8px; min-width: 0; }
+.agent-card dt { flex: 0 0 auto; color: var(--text-muted); font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
+.agent-card dd { min-width: 0; margin: 0; color: var(--text-main); font-size: 11px; font-weight: 500; text-align: right; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.agent-card.failed { border-color: color-mix(in srgb, var(--status-bad-text) 45%, var(--border-color)); }
+.agent-card.busy { border-color: color-mix(in srgb, var(--accent-primary) 45%, var(--border-color)); }
+
+/* Agent inspector ---------------------------------------------------------- */
+.agent-details h2 { margin: 0 0 12px; font-size: 15px; font-weight: 600; color: var(--text-main); }
+.agent-details > header { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+.agent-details header > div { min-width: 0; }
+.agent-details header h3 { margin: 4px 0 2px; font-size: 15px; font-weight: 600; color: var(--text-main); overflow-wrap: anywhere; }
+.agent-details header p { margin: 0; color: var(--text-muted); font-size: 11px; text-transform: capitalize; }
+.agent-details header code {
+  flex: 0 1 auto; min-width: 0; padding: 3px 7px; border-radius: 6px;
+  background: var(--surface-inset); border: 1px solid var(--border-subtle);
+  color: var(--text-secondary); font-family: var(--font-mono); font-size: 10px; overflow-wrap: anywhere;
+}
+.agent-details h4 { margin: 12px 0 6px; font-size: 12px; font-weight: 600; color: var(--text-main); }
+.agent-details section { display: flex; flex-wrap: wrap; gap: 5px; }
+.agent-details section h4 { flex: 1 0 100%; }
+.agent-details section > span {
+  padding: 3px 8px; border-radius: 99px; background: var(--surface-inset-strong);
+  color: var(--text-secondary); font-size: 10px; font-weight: 500;
+}
+.agent-details section p { flex: 1 0 100%; margin: 0; color: var(--text-secondary); font-size: 11px; line-height: 1.5; }
+
+/* Performance panel -------------------------------------------------------- */
+.workforce-metrics { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; }
+.workforce-metrics > div { min-width: 0; padding: 8px 10px; border-radius: 8px; background: var(--surface-inset); border: 1px solid var(--border-subtle); }
+.workforce-metrics span { display: block; color: var(--text-muted); font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.workforce-metrics strong { display: block; margin-top: 3px; color: var(--text-main); font-size: 15px; font-weight: 700; font-variant-numeric: tabular-nums; }
+
+.workforce-chips { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
+.chip {
+  padding: 3px 8px; border-radius: 99px; background: var(--surface-inset-strong);
+  color: var(--text-secondary); font-size: 10px; font-weight: 600; white-space: nowrap; text-transform: capitalize;
+}
+.chip-ok { background: var(--status-ok-bg); color: var(--status-ok-text); }
+.chip-off { background: var(--status-bad-bg); color: var(--status-bad-text); }
+
+/* Hierarchy tree ----------------------------------------------------------- */
+.agent-hierarchy, .agent-hierarchy ul { display: grid; gap: 2px; margin: 0; padding: 0; list-style: none; }
+.agent-hierarchy ul { margin-left: 12px; padding-left: 10px; border-left: 1px solid var(--border-color); }
+.agent-hierarchy button {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px; width: 100%; min-width: 0;
+  padding: 6px 9px; border: 1px solid transparent; border-radius: 7px;
+  background: transparent; color: var(--text-main); font-size: 12px; text-align: left; cursor: pointer;
+}
+.agent-hierarchy button:hover { background: var(--bg-card-hover); border-color: var(--border-color); }
+.agent-hierarchy button small { flex: 0 0 auto; color: var(--text-muted); font-size: 10px; text-transform: capitalize; }
+
+/* Communication log ------------------------------------------------------- */
+.communications { max-height: 260px; overflow-y: auto; }
+.communications li {
+  display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 4px 8px; align-items: center;
+  padding: 7px 9px; border-radius: 7px; background: var(--surface-inset); border: 1px solid var(--border-subtle);
+}
+.communications time { color: var(--text-muted); font-size: 10px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.communications strong { min-width: 0; color: var(--text-main); font-size: 11px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.communications li > span { color: var(--text-secondary); font-size: 10px; white-space: nowrap; }
+.communications em { grid-column: 1 / -1; color: var(--label-accent); font-size: 10px; font-style: normal; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
+.communications p { grid-column: 1 / -1; margin: 0; color: var(--text-secondary); font-size: 11px; line-height: 1.45; overflow-wrap: anywhere; }
+
+/* Cross-system activity --------------------------------------------------- */
+/* Real audit-trail groups replaced the five hardcoded "Unavailable" tiles, so
+   each row now carries a count, the newest event name, and its time. */
+.activity-groups { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; max-height: 260px; overflow: auto; }
+.activity-groups li {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 8px; align-items: baseline;
+  min-width: 0; padding: 8px 9px; border-radius: 7px;
+  background: var(--surface-inset); border: 1px solid var(--border-subtle);
+}
+.activity-head { display: flex; gap: 8px; align-items: baseline; justify-content: space-between; min-width: 0; grid-column: 1; }
+.activity-head strong { min-width: 0; color: var(--text-main); font-size: 11px; font-weight: 600; text-transform: capitalize; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.activity-head span { flex: 0 0 auto; color: var(--text-muted); font-size: 10px; }
+.activity-groups em {
+  grid-column: 1; min-width: 0; color: var(--text-secondary); font-size: 10px; font-style: normal;
+  text-transform: capitalize; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.activity-groups time { grid-column: 2; grid-row: 1 / span 2; color: var(--text-muted); font-size: 10px; white-space: nowrap; }
+
+@media (max-width: 1200px) {
+  .workforce-layout { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .workforce-layout > aside { grid-column: 1 / -1; }
+}
+@media (max-width: 760px) {
+  .workforce-dashboard { padding: 16px 14px 32px; }
+  .workforce-dashboard > header { display: block; }
+  .workforce-dashboard > header button { margin-top: 12px; }
+  .workforce-layout { grid-template-columns: 1fr; }
+  .agent-grid { grid-template-columns: 1fr; }
+  .workforce-dispatch { grid-template-columns: 1fr; }
+  .workforce-metrics { grid-template-columns: 1fr; }
+}

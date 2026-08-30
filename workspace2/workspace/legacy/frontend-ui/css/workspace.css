@@ -1,0 +1,309 @@
+/* Workspace Panel — split layout with file tree, editor, and live preview */
+
+#workspacePanel {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: #0d0a07;
+  z-index: 10006;
+  display: none;
+  flex-direction: column;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  font-size: 13px;
+}
+
+#workspacePanel.open {
+  display: flex;
+}
+
+/* Toolbar */
+
+#wsToolbar {
+  display: flex;
+  align-items: center;
+  height: 38px;
+  padding: 0 10px;
+  background: #1a110c;
+  border-bottom: 1px solid rgba(255, 186, 90, 0.22);
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+#wsToolbar button {
+  background: rgba(255, 181, 61, 0.1);
+  border: 1px solid rgba(255, 186, 90, 0.25);
+  color: #f8e2b7;
+  padding: 4px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+
+#wsToolbar button:hover {
+  background: rgba(255, 181, 61, 0.25);
+}
+
+#wsToolbar button.active {
+  background: rgba(255, 181, 61, 0.3);
+  border-color: #ffb53d;
+}
+
+#wsCloseBtn {
+  margin-left: auto;
+  color: #ff4d4d !important;
+}
+
+.ws-toolbar-left { display: flex; align-items: center; gap: 4px; }
+.ws-toolbar-center {
+  flex: 1;
+  text-align: center;
+  overflow: hidden;
+}
+
+.ws-filename {
+  color: #f8e2b7;
+  font-size: 13px;
+  opacity: 0.8;
+}
+
+.ws-toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.ws-sep {
+  color: rgba(255, 186, 90, 0.3);
+  margin: 0 2px;
+  user-select: none;
+}
+
+#wsViewportBtns {
+  display: flex;
+  gap: 2px;
+  margin-right: 6px;
+}
+
+#wsViewportBtns button {
+  font-size: 11px;
+  padding: 4px 8px;
+}
+
+/* Main split area */
+
+#wsMain {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Sidebar — file tree */
+
+#wsSidebar {
+  width: 220px;
+  min-width: 60px;
+  background: #110c08;
+  border-right: 1px solid rgba(255, 186, 90, 0.15);
+  overflow-y: auto;
+  overflow-x: hidden;
+  flex-shrink: 0;
+}
+
+#wsFileTree {
+  padding: 6px 0;
+}
+
+.ws-tree-item {
+  display: flex;
+  align-items: center;
+  padding: 4px 8px 4px calc(12px + var(--depth, 0) * 16px);
+  cursor: pointer;
+  color: #c8b38a;
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: background 0.1s;
+  gap: 5px;
+  border-left: 2px solid transparent;
+}
+
+.ws-tree-item:hover {
+  background: rgba(255, 181, 61, 0.08);
+}
+
+.ws-tree-item.active {
+  background: rgba(255, 181, 61, 0.15);
+  border-left-color: #ffb53d;
+  color: #ffb53d;
+}
+
+.ws-tree-icon {
+  flex-shrink: 0;
+  width: 14px;
+  text-align: center;
+  font-size: 11px;
+  opacity: 0.7;
+}
+
+.ws-tree-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ws-tree-actions {
+  margin-left: auto;
+  display: none;
+  gap: 2px;
+}
+
+.ws-tree-item:hover .ws-tree-actions {
+  display: flex;
+}
+
+.ws-tree-actions button {
+  background: none;
+  border: none;
+  color: #c8b38a;
+  cursor: pointer;
+  font-size: 10px;
+  padding: 0 3px;
+  opacity: 0.6;
+}
+
+.ws-tree-actions button:hover {
+  opacity: 1;
+  color: #ffb53d;
+}
+
+/* Empty state */
+
+.ws-empty {
+  padding: 20px 12px;
+  color: rgba(200, 179, 138, 0.4);
+  font-size: 12px;
+  text-align: center;
+  font-style: italic;
+}
+
+/* Editor */
+
+#wsEditorContainer {
+  flex: 1;
+  min-width: 200px;
+  background: #1e1e1e;
+  overflow: hidden;
+}
+
+#wsEditor {
+  width: 100%;
+  height: 100%;
+}
+
+/* Preview pane */
+
+#wsPreviewContainer {
+  width: 50%;
+  min-width: 280px;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid rgba(255, 186, 90, 0.15);
+}
+
+#wsPreviewBar {
+  height: 30px;
+  background: #e8e8e8;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  flex-shrink: 0;
+}
+
+#wsPreviewUrl {
+  font-size: 11px;
+  color: #666;
+  font-family: monospace;
+}
+
+#wsPreviewFrameWrap {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  overflow: auto;
+  background: #e0e0e0;
+}
+
+#wsPreviewFrame {
+  border: none;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  transition: width 0.2s ease;
+}
+
+#wsPreviewFrame.fixed-width {
+  width: var(--preview-width, 100%);
+  max-width: 100%;
+}
+
+/* Resizers */
+
+.ws-resizer {
+  position: absolute;
+  background: transparent;
+  z-index: 10;
+  transition: background 0.15s;
+}
+
+.ws-resizer:hover,
+.ws-resizer.active {
+  background: rgba(255, 181, 61, 0.3);
+}
+
+.ws-resizer-v {
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  cursor: col-resize;
+}
+
+/* Vertical resizer: between editor and preview, re-positioned via JS */
+.ws-resizer-h {
+  left: 0;
+  right: 0;
+  height: 4px;
+  cursor: row-resize;
+  display: none;
+}
+
+/* Resizer positioning handled by JS */
+
+/* Inline file rename input */
+
+.ws-tree-input {
+  background: #1e1e1e;
+  border: 1px solid #ffb53d;
+  color: #f8e2b7;
+  padding: 2px 6px;
+  font-size: 12px;
+  width: 100%;
+  border-radius: 2px;
+  outline: none;
+}
+
+/* Responsive — compact mode */
+
+@media (max-width: 800px) {
+  #wsSidebar { width: 150px; }
+  #wsPreviewContainer { width: 40%; min-width: 200px; }
+  #wsToolbar button { padding: 4px 7px; font-size: 11px; }
+}
+
+@media (max-width: 600px) {
+  #wsSidebar { display: none; }
+  #wsPreviewContainer { width: 100%; }
+  #wsEditorContainer { display: none; }
+}

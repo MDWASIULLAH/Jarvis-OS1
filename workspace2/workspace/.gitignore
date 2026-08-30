@@ -1,0 +1,20 @@
+# Python
+backend/venv/
+**/__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+coverage/
+# Node / Next
+**/node_modules/
+**/.next/
+dist/
+build/
+# Local configuration and generated data
+.env
+.env.*
+!.env.example
+logs/
+*.log
+.DS_Store
+Thumbs.db

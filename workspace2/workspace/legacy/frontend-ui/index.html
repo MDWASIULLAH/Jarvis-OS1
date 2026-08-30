@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no" />
+  <meta name="description" content="J.A.R.V.I.S. — Just A Rather Very Intelligent System. An advanced AI assistant with 3D orbital visualization." />
+  <meta name="theme-color" content="#090503" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>J.A.R.V.I.S. // AI ASSISTANT</title>
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+  <link rel="stylesheet" href="css/imageviewer.css" />
+  <link rel="stylesheet" href="css/workspace.css" />
+  <link rel="stylesheet" href="css/operations.css" />
+</head>
+<body>
+
+  <!-- ============================================================
+       3D CANVAS STAGE (preserved exactly from original)
+       ============================================================ -->
+  <canvas id="stage" aria-hidden="true"></canvas>
+
+  <!-- ============================================================
+       VISUAL OVERLAYS (preserved exactly from original)
+       ============================================================ -->
+  <div class="vignette" aria-hidden="true"></div>
+  <div class="scanlines" aria-hidden="true"></div>
+
+  <!-- ============================================================
+       HUD FRAME (preserved exactly from original)
+       ============================================================ -->
+  <div class="hud" aria-hidden="true">
+    <div class="corner tl"></div>
+    <div class="corner tr"></div>
+    <div class="corner bl"></div>
+    <div class="corner br"></div>
+    <div class="topbar">
+      <div class="brand" role="button" tabindex="0" aria-label="Open Settings">
+        <span class="dot"></span>J.A.R.V.I.S
+      </div>
+      <div id="clock">SYSTEM // ONLINE</div>
+    </div>
+    <div class="rule"></div>
+    <button id="menuButtonTop" class="top-menu-btn" aria-label="Chat History" title="Chat History">☰</button>
+  </div>
+
+  <!-- ============================================================
+       MODE INDICATOR (preserved exactly from original)
+       ============================================================ -->
+  <div class="mode" id="mode" aria-live="polite">QUANTUM ARRAY // STANDBY</div>
+
+  <!-- ============================================================
+       VOICE SPECTRUM (preserved exactly from original)
+       ============================================================ -->
+  <div class="voice" aria-hidden="true">
+    <div class="t">VOICE SPECTRUM // LIVE</div>
+    <div class="bars" id="voiceBars"></div>
+  </div>
+
+  <!-- ============================================================
+       ZOOM DISPLAY (preserved exactly from original)
+       ============================================================ -->
+  <div class="zoom" aria-hidden="true">
+    STRUCTURE ZOOM
+    <strong id="zoomValue">148%</strong>
+  </div>
+
+  <!-- ============================================================
+       FPS COUNTER (new — hidden by default)
+       ============================================================ -->
+  <div id="fpsCounter" aria-hidden="true"></div>
+
+  <!-- ============================================================
+       SYSTEM STATS HUD (new — shows uptime, memory, network)
+       ============================================================ -->
+  <div id="systemStats" class="system-stats" aria-hidden="true"></div>
+
+  <!-- ============================================================
+       KEYBOARD SHORTCUTS OVERLAY (new — toggle with ?)
+       ============================================================ -->
+  <div id="shortcutsOverlay" class="shortcuts-overlay" role="dialog" aria-label="Keyboard Shortcuts">
+    <div class="shortcuts-box">
+      <div class="shortcuts-header">
+        <h2>KEYBOARD SHORTCUTS</h2>
+        <button class="x" id="shortcutsClose" aria-label="Close">✕</button>
+      </div>
+      <div class="shortcuts-grid">
+        <div class="shortcut-item"><kbd>Enter</kbd><span>Send message</span></div>
+        <div class="shortcut-item"><kbd>Ctrl+N</kbd><span>New chat</span></div>
+        <div class="shortcut-item"><kbd>Ctrl+,</kbd><span>Settings</span></div>
+        <div class="shortcut-item"><kbd>Escape</kbd><span>Close modal/sheet</span></div>
+        <div class="shortcut-item"><kbd>/help</kbd><span>Show commands</span></div>
+        <div class="shortcut-item"><kbd>/theme</kbd><span>Cycle themes</span></div>
+        <div class="shortcut-item"><kbd>/calc</kbd><span>Calculator</span></div>
+        <div class="shortcut-item"><kbd>/status</kbd><span>System info</span></div>
+        <div class="shortcut-item"><kbd>Ctrl+V</kbd><span>Paste image</span></div>
+        <div class="shortcut-item"><kbd>?</kbd><span>This help</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       HISTORY SIDEBAR (new — ChatGPT-style)
+       ============================================================ -->
+  <div id="sidebarOverlay" aria-hidden="true"></div>
+  <nav id="historySidebar" role="complementary" aria-label="Chat History">
+    <div class="sidebar-header">
+      <h2>HISTORY</h2>
+      <div style="display: flex; gap: 8px;">
+        <button id="newChatBtn" aria-label="New Chat">+ NEW</button>
+        <button id="closeSidebarBtn" aria-label="Close Sidebar" style="background:transparent; border:none; font-size:18px; color:rgba(255,186,90,0.6); padding:0 4px; cursor:pointer;" title="Close Sidebar">✕</button>
+      </div>
+    </div>
+    <div class="sidebar-search">
+      <input type="text" id="chatSearchInput" placeholder="Search conversations..." aria-label="Search conversations" />
+    </div>
+    <div id="chatList" role="list" aria-label="Conversation list"></div>
+    <div class="sidebar-footer">
+      <button id="importChatsBtn" aria-label="Import Chats">Import</button>
+      <button id="exportChatsBtn" aria-label="Export All Chats">Export</button>
+      <button id="clearHistoryBtn" aria-label="Clear All History">Clear All</button>
+    </div>
+  </nav>
+
+  <!-- ============================================================
+       ADD-TO-CHAT SHEET (preserved layout + FIXED missing IDs)
+       Now every tile has a proper ID for JS event binding
+       ============================================================ -->
+  <div class="sheet" id="sheet" role="dialog" aria-label="Add to chat" aria-modal="true">
+    <div class="head">
+      <span>Add to chat</span>
+      <button class="x" id="sheetClose" aria-label="Close sheet">✕</button>
+    </div>
+    <div class="grid">
+      <!-- FIX: Added id="btnCamera" — was missing, caused null reference -->
+      <div class="tile" id="btnCamera" role="button" tabindex="0" aria-label="Open Camera">
+        <div class="ic">⌁</div>
+        <div class="lab">Camera</div>
+      </div>
+      <!-- FIX: Added id="btnPhotos" — was missing, caused null reference -->
+      <div class="tile" id="btnPhotos" role="button" tabindex="0" aria-label="Select Photos">
+        <div class="ic">◫</div>
+        <div class="lab">Photos</div>
+      </div>
+      <!-- FIX: Added id="btnFiles" — was missing, caused null reference -->
+      <div class="tile" id="btnFiles" role="button" tabindex="0" aria-label="Upload Files">
+        <div class="ic">⤓</div>
+        <div class="lab">Files</div>
+      </div>
+    </div>
+    <!-- FIX: Added id="btnWeb" to web row — was missing, caused null reference -->
+    <div class="row" id="webRow" role="button" tabindex="0" aria-label="Toggle Web Search">
+      <div class="left">
+        <div class="mini">◌</div>
+        <div>Web search</div>
+      </div>
+      <div class="toggle" id="webToggle" role="switch" aria-checked="true" aria-label="Web search toggle"></div>
+    </div>
+    <!-- FIX: Added id="btnToolAccess" — was missing -->
+    <div class="tool" id="btnToolAccess" role="button" tabindex="0" aria-label="Tool Access">
+      <div class="left">
+        <div class="mini">◎</div>
+        <div>Tool access</div>
+      </div>
+      <small>Auto</small>
+    </div>
+    <!-- FIX: Added id="btnConnectors" — was missing -->
+    <div class="tool" id="btnConnectors" role="button" tabindex="0" aria-label="Connectors">
+      <div class="left">
+        <div class="mini">◔</div>
+        <div>Connectors</div>
+      </div>
+      <small> </small>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       CAMERA MODAL (new)
+       ============================================================ -->
+  <div id="cameraModal" role="dialog" aria-label="Camera" aria-modal="true"></div>
+
+  <!-- ============================================================
+       SETTINGS MODAL (new)
+       ============================================================ -->
+  <div id="settingsModal" role="dialog" aria-label="Settings" aria-modal="true"></div>
+
+  <!-- ============================================================
+       TOAST NOTIFICATIONS (new)
+       ============================================================ -->
+  <div id="toastContainer" aria-live="polite" aria-relevant="additions"></div>
+
+  <!-- ============================================================
+       CONSOLE — INPUT AREA (preserved structure + new chat container)
+       ============================================================ -->
+  <div class="console">
+    <!-- Control buttons: scroll up/down + fullscreen + back (absolute positioned above chat) -->
+    <div class="chat-controls" id="chatControls">
+      <button class="ctrl-btn" id="scrollTopBtn" aria-label="Scroll to top" title="Scroll to top">↑</button>
+      <button class="ctrl-btn" id="scrollBottomBtn" aria-label="Scroll to bottom" title="Scroll to bottom">↓</button>
+      <button class="ctrl-btn always-visible" id="speakToggleBtn" aria-label="Toggle Speech" title="Toggle Speech (Speak/Silent)">🔊</button>
+      <button class="ctrl-btn always-visible" id="workspaceBtn" aria-label="Workspace" title="Coding Workspace (Ctrl+W)">⌨</button>
+      <button class="ctrl-btn always-visible" id="focusModeBtn" aria-label="Focus Mode" title="Focus Mode (Red)">🔴</button>
+      <button class="ctrl-btn always-visible" id="fullscreenBtn" aria-label="Fullscreen" title="Fullscreen view">⛶</button>
+      <button class="ctrl-btn" id="exitFullscreenBtn" aria-label="Exit Fullscreen" title="Back to JARVIS view" style="display:none">✕</button>
+    </div>
+
+    <!-- Chat Messages — replaces the old single #response div -->
+    <div id="chatMessages" role="log" aria-label="Conversation messages" aria-live="polite">
+    </div>
+
+    <!-- Legacy response div — hidden, kept for compatibility -->
+    <div id="response" aria-hidden="true"></div>
+
+    <!-- Attachment Preview Bar (new) -->
+    <div id="attachmentBar" aria-label="Attached files"></div>
+
+    <!-- Input Bar (preserved exactly from original) -->
+    <div class="barRow">
+      <button class="mainButton" id="attachButton" aria-label="Add to Chat" title="Add to Chat">+</button>
+      <button class="mainButton" id="cameraButton" aria-label="Camera" title="Camera">◉</button>
+      <!-- Kept short: a longer hint wraps to a second line inside this
+           single-row box on a narrow phone and renders visibly clipped. -->
+      <textarea id="command" rows="1" placeholder="Ask JARVIS…"
+                aria-label="Message input" autocomplete="off"></textarea>
+      <button class="mainButton" id="micButton" aria-label="Voice Input" title="Voice Input">♬</button>
+      <button class="mainButton" id="sendButton" aria-label="Send Message" title="Send Message">➤</button>
+    </div>
+  </div>
+
+  <!-- Stop Speaking Button (appears when JARVIS is talking) -->
+  <button id="stopSpeakingBtn" aria-label="Stop speaking" title="Stop JARVIS">
+    ◼ STOP SPEAKING
+  </button>
+
+  <button id="operationsButton" class="operations-button" aria-label="Open JARVIS Operations Console">Operations</button>
+  <aside id="operationsConsole" class="operations-console" aria-label="JARVIS Operations Console" aria-hidden="true">
+    <header><div><small>JARVIS OS // J1</small><h2>OPERATIONS CONSOLE</h2></div><button id="operationsClose" aria-label="Close Operations Console">×</button></header>
+    <nav id="operationsNav" aria-label="Operations views">
+      <button data-view="missions">Missions</button><button data-view="nexus">Neural Nexus</button><button data-view="agents">Agents</button><button data-view="memory">Memory</button><button data-view="knowledge">Knowledge</button><button data-view="reflection">Reflection</button><button data-view="evolution">Evolution</button><button data-view="installation">Installation</button><button data-view="security">Security</button><button data-view="company">Company</button><button data-view="search">Search</button><button data-view="settings">Settings</button>
+    </nav>
+    <main id="operationsContent" tabindex="0" aria-live="polite"></main>
+  </aside>
+
+  <!-- ============================================================
+       WORKSPACE PANEL (code editor + file tree + live preview)
+       ============================================================ -->
+  <div id="workspacePanel" role="region" aria-label="Coding Workspace">
+    <div id="wsToolbar">
+      <div class="ws-toolbar-left">
+        <button id="wsNewFileBtn" title="New File">+ File</button>
+        <button id="wsNewFolderBtn" title="New Folder">+ Folder</button>
+        <button id="wsSaveBtn" title="Save (Ctrl+S)">Save</button>
+        <button id="wsRefreshFilesBtn" title="Refresh files">Refresh</button>
+        <span class="ws-sep">|</span>
+        <button id="wsDownloadZipBtn" title="Download as ZIP">Zip</button>
+      </div>
+      <div class="ws-toolbar-center">
+        <span id="wsCurrentFile" class="ws-filename">untitled</span>
+      </div>
+      <div class="ws-toolbar-right">
+        <div id="wsViewportBtns">
+          <button data-size="100%" class="active" title="Desktop">Desktop</button>
+          <button data-size="768px" title="Tablet">Tablet</button>
+          <button data-size="375px" title="Mobile">Mobile</button>
+        </div>
+        <button id="wsRefreshPreviewBtn" title="Refresh preview">Reload</button>
+        <button id="wsCloseBtn" title="Close workspace (Esc)">X</button>
+      </div>
+    </div>
+    <div id="wsMain">
+      <div id="wsSidebar">
+        <div id="wsFileTree"></div>
+      </div>
+      <div id="wsEditorContainer">
+        <div id="wsEditor"></div>
+      </div>
+      <div id="wsPreviewContainer">
+        <div id="wsPreviewBar">
+          <span id="wsPreviewUrl">Preview</span>
+        </div>
+        <div id="wsPreviewFrameWrap">
+          <iframe id="wsPreviewFrame" sandbox="allow-scripts allow-same-origin" title="Live Preview"></iframe>
+        </div>
+      </div>
+    </div>
+    <div id="wsResizerV" class="ws-resizer ws-resizer-v"></div>
+    <div id="wsResizerH" class="ws-resizer ws-resizer-h"></div>
+  </div>
+
+  <!-- ============================================================
+       JAVASCRIPT MODULES (loaded in dependency order)
+       ============================================================ -->
+  <!-- Utilities — no dependencies -->
+  <script src="js/utils.js"></script>
+  <!-- Monaco loader from CDN — needed before workspace -->
+  <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.45.0/min/vs/loader.js"></script>
+  <!-- Renderer — depends on utils -->
+  <script src="js/renderer.js"></script>
+  <!-- Voice — depends on utils, renderer -->
+  <script src="js/voice.js"></script>
+  <!-- API — depends on utils -->
+  <script src="js/api.js"></script>
+  <script src="js/frontend-gateway.js"></script>
+  <!-- History — depends on utils (chat depends on history) -->
+  <script src="js/history.js"></script>
+  <!-- Chat — depends on utils, renderer, voice, api, history -->
+  <script src="js/chat.js"></script>
+  <!-- Upload — depends on utils, renderer -->
+  <script src="js/upload.js"></script>
+  <!-- Camera — depends on utils, renderer, upload -->
+  <script src="js/camera.js"></script>
+  <!-- Web Search — depends on utils, renderer -->
+  <script src="js/websearch.js"></script>
+  <!-- Speech — depends on utils, renderer, voice -->
+  <script src="js/speech.js"></script>
+  <!-- Settings — depends on all other modules -->
+  <script src="js/settings.js"></script>
+  <!-- Advanced — slash commands, themes, sounds, reactions -->
+  <script src="js/advanced.js"></script>
+  <!-- Image Viewer — full-featured image preview module -->
+  <script src="js/imageviewer.js"></script>
+  <!-- Connectors — service connections and tool toggles -->
+  <script src="js/connectors.js"></script>
+  <!-- Workspace — code editor, file tree, live preview -->
+  <script src="js/workspace.js"></script>
+  <!-- App — main orchestrator, depends on everything, auto-boots -->
+  <script src="js/app.js"></script>
+  <script src="js/operations-dashboard.js"></script>
+
+</body>
+</html>

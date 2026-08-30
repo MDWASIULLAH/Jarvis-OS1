@@ -1,0 +1,172 @@
+/* ==========================================================================
+   KNOWLEDGE GRAPH
+   New feature: the module previously fell through to the generic ModuleCenter
+   placeholder, so none of these class names existed.
+   ========================================================================== */
+.knowledge-graph { max-width: 1500px; margin: 0 auto; padding: 20px 24px 40px; }
+.knowledge-graph > header { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; padding: 4px 2px 18px; }
+.knowledge-graph > header > div { min-width: 0; }
+.knowledge-graph > header span { font-size: 11px; font-weight: 600; color: var(--label-accent); text-transform: uppercase; letter-spacing: .1em; }
+.knowledge-graph h1 { margin: 4px 0 6px; font-size: 26px; font-weight: 700; letter-spacing: -.02em; color: var(--text-main); }
+.knowledge-graph > header p { margin: 0; font-size: 13px; color: var(--text-secondary); }
+.graph-header-actions { display: flex; flex: 0 0 auto; flex-wrap: wrap; gap: 8px; }
+.knowledge-graph > header button, .graph-header-actions button {
+  display: inline-flex; align-items: center; gap: 6px; flex: 0 0 auto;
+  padding: 8px 12px; border: 1px solid var(--border-color); border-radius: 8px;
+  background: var(--bg-card); color: var(--text-main); font-size: 12px; font-weight: 500;
+  white-space: nowrap; cursor: pointer; box-shadow: var(--shadow-sm);
+}
+.graph-header-actions button:hover { background: var(--bg-pill); }
+
+.graph-api-notice {
+  margin: 0 0 14px; padding: 10px 14px; border: 1px solid var(--status-warn-border);
+  border-radius: 8px; background: var(--status-warn-bg); color: var(--status-warn-text); font-size: 12px;
+}
+.graph-unavailable { margin: 0; color: var(--text-muted); font-size: 12px; line-height: 1.55; }
+
+/* Entity composer ---------------------------------------------------------- */
+.graph-composer {
+  display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 1.2fr) auto; gap: 10px;
+  align-items: end; margin: 0 0 14px; padding: 14px 16px;
+  border: 1px solid var(--border-color); border-radius: 12px;
+  background: var(--surface-raised); box-shadow: var(--shadow-sm);
+}
+.graph-composer label { display: grid; gap: 5px; min-width: 0; font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: .04em; }
+.graph-composer input, .graph-composer select {
+  width: 100%; min-width: 0; padding: 8px 10px; border: 1px solid var(--border-color);
+  border-radius: 8px; background: var(--bg-input); color: var(--text-main);
+  font-family: inherit; font-size: 13px; font-weight: 400; text-transform: none; letter-spacing: normal;
+}
+.graph-composer input:focus, .graph-composer select:focus { outline: 0; border-color: var(--border-focus); box-shadow: 0 0 0 3px color-mix(in srgb, var(--border-focus) 22%, transparent); }
+.graph-composer-actions { display: flex; flex: 0 0 auto; gap: 8px; }
+.graph-composer-actions button, .graph-form button {
+  padding: 8px 14px; border: 1px solid var(--border-color); border-radius: 8px;
+  background: var(--bg-card); color: var(--text-main); font-size: 12px; font-weight: 600; white-space: nowrap; cursor: pointer;
+}
+.graph-composer-actions button.primary, .graph-form button.primary { border-color: transparent; background: var(--accent-primary); color: #fff; }
+.graph-composer-actions button:hover:not(:disabled), .graph-form button:hover:not(:disabled) { filter: brightness(1.07); }
+.graph-composer-actions button:disabled, .graph-form button:disabled { opacity: .55; cursor: not-allowed; filter: none; }
+.graph-composer .graph-api-notice { grid-column: 1 / -1; margin: 0; }
+
+/* Summary strip ------------------------------------------------------------ */
+.graph-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin: 0 0 14px; }
+.graph-stats > div {
+  min-width: 0; padding: 11px 13px; border: 1px solid var(--border-color); border-radius: 10px;
+  background: var(--bg-card); box-shadow: var(--shadow-sm);
+}
+.graph-stats span { display: block; color: var(--text-muted); font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.graph-stats strong { display: block; margin-top: 3px; color: var(--text-main); font-size: 17px; font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* Layout ------------------------------------------------------------------- */
+.graph-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr) minmax(0, 1fr); gap: 14px; align-items: start; }
+.graph-side { display: grid; gap: 14px; min-width: 0; }
+.graph-card {
+  min-width: 0; padding: 16px; border: 1px solid var(--border-color); border-radius: 12px;
+  background: var(--bg-card); box-shadow: var(--shadow-sm);
+}
+.graph-card h2 { display: flex; align-items: center; gap: 6px; margin: 0 0 10px; font-size: 15px; font-weight: 600; color: var(--text-main); }
+.graph-card h3 { margin: 0 0 6px; font-size: 12px; font-weight: 600; color: var(--text-main); }
+.graph-card > input[type="range"] { width: 100%; margin: 2px 0 8px; accent-color: var(--accent-primary); }
+
+.graph-card-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin-bottom: 12px; }
+.graph-card-header > div { min-width: 0; }
+.graph-card-header h2 { margin: 6px 0 4px; overflow-wrap: anywhere; }
+.graph-card-header code {
+  display: inline-block; max-width: 100%; padding: 2px 6px; border-radius: 5px;
+  background: var(--surface-inset); border: 1px solid var(--border-subtle);
+  color: var(--text-secondary); font-family: var(--font-mono); font-size: 10px; overflow-wrap: anywhere;
+}
+.graph-danger {
+  display: inline-flex; align-items: center; gap: 5px; flex: 0 0 auto;
+  padding: 6px 11px; border: 1px solid color-mix(in srgb, var(--status-bad-text) 40%, var(--border-color));
+  border-radius: 8px; background: var(--status-bad-bg); color: var(--status-bad-text);
+  font-size: 11px; font-weight: 600; white-space: nowrap; cursor: pointer;
+}
+.graph-danger:hover:not(:disabled) { filter: brightness(1.05); }
+.graph-danger:disabled { opacity: .55; cursor: not-allowed; }
+
+/* Entity list -------------------------------------------------------------- */
+.graph-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 10px; }
+.graph-toolbar h2 { flex: 0 0 auto; margin: 0; }
+.graph-toolbar label {
+  display: flex; flex: 1 1 120px; min-width: 0; align-items: center; gap: 6px;
+  padding: 7px 9px; border: 1px solid var(--border-color); border-radius: 8px;
+  background: var(--bg-input); color: var(--text-muted);
+}
+.graph-toolbar input { width: 100%; min-width: 0; border: 0; outline: 0; background: transparent; color: var(--text-main); font-size: 12px; }
+.graph-toolbar select {
+  flex: 0 0 auto; max-width: 130px; padding: 7px 8px; border: 1px solid var(--border-color);
+  border-radius: 8px; background: var(--bg-input); color: var(--text-main); font-size: 12px;
+}
+.graph-toolbar > span { flex: 0 0 auto; color: var(--text-muted); font-size: 11px; font-variant-numeric: tabular-nums; }
+
+.graph-nodes { display: grid; gap: 5px; margin: 0; padding: 0; max-height: 560px; overflow-y: auto; list-style: none; }
+.graph-nodes button {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 8px; width: 100%;
+  padding: 8px 10px; border: 1px solid var(--border-subtle); border-radius: 8px;
+  background: var(--surface-inset); color: var(--text-main); text-align: left; cursor: pointer;
+}
+.graph-nodes button:hover, .graph-nodes button.selected { background: var(--bg-card-hover); border-color: var(--border-focus); }
+.graph-nodes strong { min-width: 0; font-size: 12px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.graph-nodes em { grid-row: 2; color: var(--label-accent); font-size: 10px; font-style: normal; font-weight: 600; text-transform: capitalize; }
+.graph-nodes button > span { grid-row: 1 / span 2; align-self: center; color: var(--text-muted); font-size: 10px; white-space: nowrap; }
+
+/* Inspector ---------------------------------------------------------------- */
+.graph-facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; margin: 0 0 10px; }
+.graph-facts > div { min-width: 0; padding: 7px 9px; border: 1px solid var(--border-subtle); border-radius: 7px; background: var(--surface-inset); }
+.graph-facts dt { color: var(--text-muted); font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.graph-facts dd { margin: 2px 0 0; color: var(--text-main); font-size: 12px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.graph-chips { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 10px; }
+.graph-subsection { margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--border-subtle); }
+.graph-attributes { display: grid; gap: 4px; margin: 0; padding: 0; list-style: none; }
+.graph-attributes li { display: flex; justify-content: space-between; gap: 8px; min-width: 0; padding: 6px 9px; border-radius: 7px; background: var(--surface-inset); font-size: 11px; }
+.graph-attributes strong { flex: 0 0 auto; color: var(--label-accent); font-weight: 600; }
+.graph-attributes span { min-width: 0; color: var(--text-secondary); text-align: right; overflow-wrap: anywhere; }
+
+.graph-neighbours { display: grid; gap: 4px; margin: 0; padding: 0; max-height: 210px; overflow-y: auto; list-style: none; }
+.graph-neighbours button {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px; width: 100%; min-width: 0;
+  padding: 6px 9px; border: 1px solid transparent; border-radius: 7px;
+  background: var(--surface-inset); color: var(--text-main); font-size: 11px; text-align: left; cursor: pointer;
+}
+.graph-neighbours button:hover { border-color: var(--border-focus); background: var(--bg-card-hover); }
+.graph-neighbours strong { min-width: 0; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.graph-neighbours em { flex: 0 0 auto; color: var(--text-muted); font-size: 10px; font-style: normal; text-transform: capitalize; }
+
+/* Composition bars --------------------------------------------------------- */
+.graph-breakdown { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.graph-breakdown li { display: grid; grid-template-columns: 88px minmax(0, 1fr) 30px; gap: 8px; align-items: center; min-width: 0; }
+.graph-breakdown > li > span { color: var(--text-secondary); font-size: 11px; text-transform: capitalize; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.graph-breakdown strong { color: var(--text-main); font-size: 11px; font-weight: 700; text-align: right; font-variant-numeric: tabular-nums; }
+.graph-bar { height: 6px; border-radius: 99px; background: var(--surface-inset-strong); overflow: hidden; }
+.graph-bar > span { display: block; height: 100%; border-radius: 99px; background: var(--accent-primary); transition: width .3s ease; }
+
+.graph-form { display: grid; gap: 7px; }
+.graph-form select {
+  width: 100%; min-width: 0; padding: 7px 9px; border: 1px solid var(--border-color);
+  border-radius: 8px; background: var(--bg-input); color: var(--text-main); font-size: 12px;
+}
+
+.graph-edges { display: grid; gap: 4px; margin: 0; padding: 0; max-height: 230px; overflow-y: auto; list-style: none; }
+.graph-edges li { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 6px; align-items: center; min-width: 0; padding: 6px 8px; border-radius: 7px; background: var(--surface-inset); }
+.graph-edges button {
+  min-width: 0; padding: 0; border: 0; background: transparent; color: var(--text-main);
+  font-size: 11px; font-weight: 600; text-align: left; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; cursor: pointer;
+}
+.graph-edges button:hover { color: var(--label-accent); text-decoration: underline; }
+.graph-edges li > button:last-child { text-align: right; }
+.graph-edges em { color: var(--text-muted); font-size: 9px; font-style: normal; text-transform: uppercase; letter-spacing: .04em; white-space: nowrap; }
+
+@media (max-width: 1300px) {
+  .graph-layout { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .graph-side { grid-column: 1 / -1; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 900px) {
+  .knowledge-graph { padding: 16px 14px 32px; }
+  .knowledge-graph > header { display: block; }
+  .graph-header-actions { margin-top: 12px; }
+  .graph-composer { grid-template-columns: 1fr; }
+  .graph-layout, .graph-side { grid-template-columns: 1fr; }
+  .graph-facts { grid-template-columns: 1fr; }
+}

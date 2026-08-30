@@ -1,0 +1,181 @@
+/* ==========================================================================
+   DEVELOPMENT STUDIO
+   Theme-aware rewrite: the previous hardcoded #111924bb / #0c121d card
+   backgrounds meant the studio was unreadable in the light theme.
+   ========================================================================== */
+.development-studio { max-width: 1500px; margin: 0 auto; padding: 20px 24px 40px; }
+.development-studio > header { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; padding: 4px 2px 18px; }
+.development-studio > header span { font-size: 11px; font-weight: 600; color: var(--label-accent); text-transform: uppercase; letter-spacing: .1em; }
+.development-studio h1 { margin: 4px 0 6px; font-size: 26px; font-weight: 700; letter-spacing: -.02em; color: var(--text-main); }
+.development-studio > header p { margin: 0; font-size: 13px; color: var(--text-secondary); }
+.development-studio > header .studio-header-actions { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+.development-studio > header button {
+  display: inline-flex; gap: 6px; align-items: center; flex: 0 0 auto;
+  padding: 8px 12px; border: 1px solid var(--border-color); border-radius: 8px;
+  background: var(--bg-card); color: var(--text-main); font-size: 12px; font-weight: 500;
+  white-space: nowrap; cursor: pointer; box-shadow: var(--shadow-sm); transition: background .15s;
+}
+.development-studio > header button:hover { background: var(--bg-pill); }
+.development-studio > header button.primary { background: var(--accent-primary); border-color: var(--accent-primary); color: #fff; }
+
+.studio-api-notice {
+  margin: 0 0 14px; padding: 10px 14px; border: 1px solid var(--status-warn-border);
+  border-radius: 8px; background: var(--status-warn-bg); color: var(--status-warn-text); font-size: 12px;
+}
+
+.studio-grid { display: grid; grid-template-columns: minmax(320px, 1.2fr) minmax(250px, .8fr); gap: 14px; align-items: start; }
+/* The workspace column is its own stack, otherwise its seven cards would flow
+   back into the project-list column and interleave with it. */
+.studio-side { display: grid; gap: 14px; min-width: 0; }
+.studio-card {
+  min-width: 0; padding: 16px; border: 1px solid var(--border-color); border-radius: 12px;
+  background: var(--bg-card); box-shadow: var(--shadow-sm);
+}
+.studio-card h2 { margin: 0 0 12px; font-size: 15px; font-weight: 600; color: var(--text-main); }
+.studio-card-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+.studio-card-header > div { min-width: 0; }
+.studio-card-header h2 { margin: 0 0 4px; overflow-wrap: anywhere; }
+.studio-card-header > .studio-tag { flex: 0 0 auto; }
+.studio-card code {
+  padding: 2px 6px; border-radius: 5px; background: var(--surface-inset);
+  border: 1px solid var(--border-subtle); font-family: var(--font-mono); font-size: 10px; overflow-wrap: anywhere;
+}
+
+/* New-project composer ----------------------------------------------------- */
+.studio-composer {
+  display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 2fr) 100px auto; gap: 10px;
+  align-items: end; margin: 0 0 14px; padding: 14px 16px;
+  border: 1px solid var(--border-color); border-radius: 12px;
+  background: var(--surface-raised); box-shadow: var(--shadow-sm);
+}
+.studio-composer label { display: grid; gap: 5px; min-width: 0; font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: .04em; }
+.studio-composer input {
+  width: 100%; min-width: 0; padding: 8px 10px; border: 1px solid var(--border-color);
+  border-radius: 8px; background: var(--bg-input); color: var(--text-main);
+  font-family: inherit; font-size: 13px; font-weight: 400; text-transform: none; letter-spacing: normal;
+}
+.studio-composer input:focus { outline: 0; border-color: var(--border-focus); box-shadow: 0 0 0 3px color-mix(in srgb, var(--border-focus) 22%, transparent); }
+.studio-composer-actions { display: flex; flex: 0 0 auto; gap: 8px; }
+.studio-composer-actions button {
+  padding: 8px 14px; border: 1px solid var(--border-color); border-radius: 8px;
+  background: var(--bg-card); color: var(--text-main); font-size: 12px; font-weight: 600; white-space: nowrap; cursor: pointer;
+}
+.studio-composer-actions button:hover:not(:disabled) { background: var(--bg-pill); }
+.studio-composer-actions button.primary { border-color: transparent; background: var(--accent-primary); color: #fff; }
+.studio-composer-actions button.primary:hover:not(:disabled) { filter: brightness(1.07); }
+.studio-composer-actions button:disabled { opacity: .55; cursor: not-allowed; }
+.studio-composer .studio-api-notice { grid-column: 1 / -1; margin: 0; }
+
+.project-list header { display: flex; gap: 10px; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.project-list h2 { flex: 0 0 auto; margin: 0; }
+.project-list label {
+  display: flex; gap: 6px; align-items: center; flex: 1 1 120px; min-width: 0;
+  padding: 7px 9px; border: 1px solid var(--border-color); border-radius: 8px;
+  background: var(--bg-input); color: var(--text-muted);
+}
+.project-list input { width: 100%; min-width: 0; border: 0; outline: 0; background: transparent; color: var(--text-main); font-size: 12px; }
+.project-list select {
+  flex: 0 0 auto; max-width: 130px; padding: 7px 8px; border: 1px solid var(--border-color);
+  border-radius: 8px; background: var(--bg-input); color: var(--text-main); font-size: 12px;
+}
+.project-list header > span { flex: 0 0 auto; color: var(--text-muted); font-size: 11px; font-variant-numeric: tabular-nums; }
+.project-list > div { display: grid; gap: 8px; max-height: 580px; overflow: auto; contain: content; }
+
+.project-card {
+  min-width: 0; padding: 11px 12px; border: 1px solid var(--border-color); border-radius: 9px;
+  background: var(--surface-inset); color: var(--text-main); text-align: left; cursor: pointer;
+  transition: background .15s, border-color .15s;
+}
+.project-card:hover, .project-card.selected { background: var(--bg-card-hover); border-color: var(--border-focus); }
+.project-card > span { font-size: 10px; font-weight: 600; color: var(--label-accent); text-transform: capitalize; letter-spacing: .04em; }
+.project-card h3 { margin: 5px 0; font-size: 14px; font-weight: 600; color: var(--text-main); }
+.project-card p { margin: 0; color: var(--text-secondary); font-size: 12px; line-height: 1.45; }
+.project-card footer { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; color: var(--text-muted); font-size: 10px; }
+
+.studio-metrics { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.studio-metrics > div { min-width: 0; padding: 9px 10px; border-radius: 8px; background: var(--surface-inset); border: 1px solid var(--border-subtle); }
+.studio-metrics span { display: block; color: var(--text-muted); font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
+.studio-metrics strong { display: block; margin-top: 3px; color: var(--text-main); font-size: 13px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.studio-progress { height: 6px; margin-top: 10px; border-radius: 99px; background: var(--surface-inset-strong); overflow: hidden; }
+/* Accept either a div or a span as the fill element. */
+.studio-progress > * { display: block; height: 100%; border-radius: 99px; background: var(--accent-primary); transition: width .3s ease; }
+
+/* Workflow stages, quality gates, departments, tasks ----------------------- */
+.studio-stages { display: grid; gap: 5px; margin: 0; padding: 0; list-style: none; counter-reset: stage; }
+.studio-stages li {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px; min-width: 0;
+  padding: 7px 10px; border: 1px solid var(--border-subtle); border-radius: 7px;
+  background: var(--surface-inset); font-size: 11px;
+}
+.studio-stages li::before {
+  counter-increment: stage; content: counter(stage); flex: 0 0 auto;
+  display: inline-flex; align-items: center; justify-content: center; width: 17px; height: 17px;
+  border-radius: 99px; background: var(--surface-inset-strong); color: var(--text-muted); font-size: 9px; font-weight: 700;
+}
+.studio-stages li > span { flex: 1; min-width: 0; color: var(--text-main); font-weight: 600; text-transform: capitalize; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.studio-stages li > em { flex: 0 0 auto; color: var(--text-muted); font-size: 10px; font-style: normal; text-transform: uppercase; letter-spacing: .04em; }
+.studio-stages li.done { border-color: color-mix(in srgb, var(--status-ok-text) 35%, var(--border-subtle)); }
+.studio-stages li.done::before { background: var(--status-ok-bg); color: var(--status-ok-text); }
+.studio-stages li.done > em { color: var(--status-ok-text); }
+
+.studio-gates, .studio-tasks, .studio-departments { display: grid; gap: 5px; margin: 0; padding: 0; list-style: none; }
+.studio-gates li, .studio-tasks li {
+  display: flex; align-items: center; gap: 8px; min-width: 0;
+  padding: 7px 10px; border: 1px solid var(--border-subtle); border-radius: 7px;
+  background: var(--surface-inset); font-size: 11px;
+}
+.studio-gates strong, .studio-tasks strong { flex: 1; min-width: 0; color: var(--text-main); font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.studio-gates .studio-tag, .studio-tasks .studio-tag { flex: 0 0 auto; }
+.studio-tasks em { flex: 0 0 auto; color: var(--text-muted); font-size: 10px; font-style: normal; text-transform: capitalize; }
+
+.studio-departments li { min-width: 0; padding: 8px 10px; border: 1px solid var(--border-subtle); border-radius: 7px; background: var(--surface-inset); }
+.studio-departments strong { display: block; color: var(--text-main); font-size: 12px; font-weight: 600; text-transform: capitalize; }
+.studio-departments li > div { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 5px; }
+
+/* Inline department / review forms ----------------------------------------- */
+.studio-form { display: flex; flex-wrap: wrap; gap: 7px; margin: 0 0 10px; }
+.studio-form select {
+  flex: 1 1 130px; min-width: 0; padding: 7px 9px; border: 1px solid var(--border-color);
+  border-radius: 8px; background: var(--bg-input); color: var(--text-main); font-size: 12px;
+}
+.studio-form button {
+  flex: 0 0 auto; padding: 7px 13px; border: 1px solid var(--border-color); border-radius: 8px;
+  background: var(--bg-card); color: var(--text-main); font-size: 12px; font-weight: 600; white-space: nowrap; cursor: pointer;
+}
+.studio-form button.primary { border-color: transparent; background: var(--accent-primary); color: #fff; }
+.studio-form button:hover:not(:disabled) { filter: brightness(1.07); }
+.studio-form button:disabled { opacity: .55; cursor: not-allowed; }
+
+.studio-unavailable, .studio-unavailable-list { color: var(--text-secondary); font-size: 12px; line-height: 1.55; }
+.studio-unavailable-list { display: grid; gap: 5px; margin: 0; padding: 0; list-style: none; }
+.studio-unavailable-list li {
+  display: flex; justify-content: space-between; gap: 8px; min-width: 0;
+  padding: 7px 9px; border-radius: 7px; background: var(--surface-inset);
+  border: 1px solid var(--border-subtle); color: var(--text-main); font-size: 11px;
+}
+.studio-unavailable-list span { flex: 0 1 auto; min-width: 0; color: var(--text-muted); text-align: right; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.studio-tag {
+  display: inline-block; padding: 2px 7px; border-radius: 99px; font-size: 10px; font-weight: 600;
+  background: var(--surface-inset-strong); color: var(--text-secondary); white-space: nowrap;
+}
+.studio-tag.ok { background: var(--status-ok-bg); color: var(--status-ok-text); }
+.studio-tag.pending { background: var(--status-warn-bg); color: var(--status-warn-text); }
+.studio-tag.bad { background: var(--status-bad-bg); color: var(--status-bad-text); }
+
+@media (max-width: 1100px) {
+  .studio-composer { grid-template-columns: minmax(0, 1fr) 100px; }
+  .studio-composer-actions { grid-column: 1 / -1; }
+}
+@media (max-width: 760px) {
+  .development-studio { padding: 16px 14px 32px; }
+  .development-studio > header { display: block; }
+  .development-studio > header .studio-header-actions { margin-top: 12px; justify-content: flex-start; }
+  .studio-grid { grid-template-columns: 1fr; }
+  .studio-composer { grid-template-columns: 1fr; }
+  .studio-metrics { grid-template-columns: 1fr; }
+  .project-list header { display: block; }
+  .project-list label { margin-top: 8px; }
+  .project-list select { margin-top: 8px; max-width: none; width: 100%; }
+}

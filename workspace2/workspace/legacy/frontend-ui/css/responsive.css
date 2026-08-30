@@ -1,0 +1,224 @@
+/* ============================================================
+   JARVIS — Responsive Breakpoints & Mobile Optimization
+   ============================================================ */
+
+/* --- Small phones (≤480px) --- */
+@media (max-width: 480px) {
+  .hud { padding: 10px; }
+  .topbar { font-size: 7px; letter-spacing: 1.6px; }
+  .brand { font-size: 11px; letter-spacing: 3px; }
+  .corner { width: 40px; height: 40px; }
+  .mode { top: 68%; font-size: 6px; letter-spacing: 3px; }
+  .voice { bottom: 92px; left: 10px; width: 80px; }
+  .voice .t { font-size: 6px; letter-spacing: 1px; }
+  .bars { height: 24px; }
+  .zoom { right: 10px; bottom: 92px; font-size: 6px; padding: 5px 7px; }
+  .zoom strong { font-size: 13px; }
+  .console { width: 100%; bottom: 0; border-radius: 0; padding-bottom: env(safe-area-inset-bottom, 10px); }
+  /* The input bar is a sibling below this box, not an overlay on top of it, so
+     bottom padding here is dead space *inside* the scroll area: scrolling to the
+     end parks the padding on screen and pushes the newest reply out of view.
+     Keep it to an ordinary gutter. */
+  #chatMessages { max-height: 52vh; padding-bottom: 12px !important; }
+  .chat-bubble { font-size: 12px; padding: 8px 12px; }
+  .barRow { height: auto; min-height: 44px; padding: 6px 8px; gap: 4px; border-radius: 0; }
+  .mainButton { width: 32px; height: 32px; font-size: 13px; margin: 0; flex-shrink: 0; display: grid; place-items: center; }
+  #command { font-size: 14px; padding: 8px; flex: 1; min-width: 50px; }
+  #cameraButton { display: none !important; }
+  #sendButton { display: grid !important; place-items: center; }
+
+  .sheet { bottom: 94px; width: 96vw; padding: 12px; }
+  .grid { gap: 7px; }
+  .tile { height: 72px; }
+  .tile .lab { font-size: 10px; }
+  .tile .ic { width: 32px; height: 32px; font-size: 16px; }
+  .row, .tool { height: 52px; padding: 0 12px; }
+
+  #historySidebar { width: 88vw; }
+
+  .settings-container { padding: 16px 14px; }
+
+  .camera-btn { width: 42px; height: 42px; font-size: 16px; }
+  .camera-btn.capture { width: 56px; height: 56px; font-size: 20px; }
+
+  /* Chat controls on mobile (Vertical FAB Stack) */
+  .chat-controls { 
+    flex-direction: column; 
+    gap: 10px; 
+    top: auto !important; 
+    bottom: calc(80px + env(safe-area-inset-bottom, 0px)); 
+    right: 10px; 
+    pointer-events: none;
+  }
+  .chat-controls .ctrl-btn { 
+    width: 32px; height: 32px; 
+    font-size: 14px; 
+    border-radius: 50%; 
+    background: rgba(22,14,10,.95);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    pointer-events: auto;
+  }
+  .chat-action-btn { width: 32px; height: 32px; font-size: 14px; }
+  .chat-actions { gap: 4px; }
+
+  /* Fullscreen on mobile */
+  .console.fullscreen { padding: 6px; height: 100%; height: 100dvh; }
+  .console.fullscreen #chatMessages { padding: 8px 10px 14px; max-height: none !important; flex: 1; }
+  .console.fullscreen .barRow { height: 48px; padding: 4px 6px; flex-shrink: 0; }
+}
+
+/* --- Phones (≤600px) — preserves original breakpoint --- */
+@media (max-width: 600px) {
+  .hud { padding: 13px; }
+  .topbar { font-size: 7px; letter-spacing: 1.6px; }
+  .brand { font-size: 12px; letter-spacing: 4px; }
+  .corner { width: 45px; height: 45px; }
+  .mode { top: 70%; font-size: 7px; letter-spacing: 4px; }
+  .voice { bottom: 97px; left: 14px; width: 95px; }
+  .voice .t { font-size: 7px; }
+  .zoom { right: 14px; bottom: 97px; font-size: 7px; }
+  .console { width: 100%; bottom: 0; border-radius: 0; padding-bottom: env(safe-area-inset-bottom, 10px); }
+  #chatMessages { max-height: 52vh; padding-bottom: 12px !important; }
+  .chat-bubble { font-size: 11px; }
+  .barRow { height: auto; min-height: 44px; padding: 6px 8px; gap: 6px; border-radius: 0; }
+  .mainButton { width: 32px; height: 32px; font-size: 13px; margin: 0; flex-shrink: 0; display: grid; place-items: center; }
+  #command { font-size: 14px; padding: 8px; flex: 1; min-width: 50px; }
+  #cameraButton { display: none !important; }
+  #sendButton { display: grid !important; place-items: center; }
+
+  .sheet { bottom: 102px; width: 94vw; }
+  .grid { gap: 8px; }
+  .tile { height: 76px; }
+  .tile .lab { font-size: 11px; }
+
+  /* Chat controls on phones (Vertical FAB Stack) */
+  .chat-controls { 
+    flex-direction: column; 
+    gap: 10px; 
+    top: auto !important; 
+    bottom: calc(80px + env(safe-area-inset-bottom, 0px)); 
+    right: 12px; 
+    pointer-events: none;
+  }
+  .chat-controls .ctrl-btn { 
+    width: 34px; height: 34px; 
+    font-size: 15px; 
+    border-radius: 50%; 
+    background: rgba(22,14,10,.95);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    pointer-events: auto;
+  }
+  .chat-action-btn { width: 34px; height: 34px; font-size: 15px; }
+
+  /* Fullscreen overrides */
+  .console.fullscreen { height: 100%; height: 100dvh; }
+  .console.fullscreen #chatMessages { max-height: none !important; flex: 1; padding-bottom: 14px !important; }
+}
+
+/* --- Tablets (601px — 1024px) --- */
+@media (min-width: 601px) and (max-width: 1024px) {
+  .console { width: min(720px, 92%); }
+  #chatMessages { max-height: 42vh; }
+  .sheet { width: min(380px, 88vw); }
+  #historySidebar { width: min(340px, 80vw); }
+}
+
+/* --- Large screens (≥1440px) --- */
+@media (min-width: 1440px) {
+  .console { width: min(900px, 80%); }
+  #chatMessages { max-height: 50vh; }
+  .chat-bubble { max-width: 70%; }
+}
+
+/* --- Landscape on small devices --- */
+@media (max-height: 500px) and (orientation: landscape) {
+  .mode { display: none; }
+  .voice { bottom: 65px; }
+  .zoom { bottom: 65px; }
+  .console { bottom: 6px; }
+  #chatMessages { max-height: 28vh; }
+  .sheet { bottom: 68px; }
+  .barRow { height: 44px; }
+  .corner { width: 30px; height: 30px; }
+}
+
+/* --- Safe area for notched devices --- */
+@supports (padding-top: env(safe-area-inset-top)) {
+  .hud {
+    padding-top: calc(18px + env(safe-area-inset-top));
+    padding-left: calc(20px + env(safe-area-inset-left));
+    padding-right: calc(20px + env(safe-area-inset-right));
+  }
+  .console {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  #historySidebar {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+  }
+}
+
+/* --- Touch target minimums --- */
+@media (pointer: coarse) {
+  button {
+    min-width: 44px;
+    min-height: 44px;
+  }
+  .tile {
+    min-height: 76px;
+  }
+  .chat-action-btn {
+    min-width: 32px;
+    min-height: 32px;
+  }
+  .chat-list-action {
+    min-width: 32px;
+    min-height: 32px;
+  }
+}
+
+/* --- High Contrast Mode --- */
+@media (prefers-contrast: high) {
+  :root {
+    --line: rgba(255, 186, 90, .5);
+    --text: #fff;
+    --surface-border: rgba(255, 255, 255, .2);
+  }
+  .chat-bubble {
+    border-width: 2px;
+  }
+  .corner {
+    opacity: 1;
+    border-width: 3px;
+  }
+  button {
+    border-width: 2px;
+  }
+}
+
+/* --- Print styles (export chat) --- */
+@media print {
+  .hud, .vignette, .scanlines, .voice, .zoom,
+  .mode, .barRow, .sheet, #stage,
+  #historySidebar, #sidebarOverlay,
+  #cameraModal, #settingsModal,
+  #toastContainer, #attachmentBar,
+  .chat-actions, #fpsCounter {
+    display: none !important;
+  }
+  body {
+    background: #fff;
+    color: #000;
+    overflow: auto;
+  }
+  #chatMessages {
+    max-height: none;
+    position: static;
+  }
+  .chat-bubble {
+    background: #f5f5f5 !important;
+    border: 1px solid #ddd !important;
+    color: #000 !important;
+  }
+}

@@ -1,0 +1,29 @@
+fastapi
+uvicorn[standard]
+pydantic
+requests
+cryptography
+pytest
+
+# documents
+pypdf
+python-docx
+python-pptx
+openpyxl
+reportlab      # PDF generation in document_writer.py
+
+# vision / OCR (also needs the system package: apt install tesseract-ocr)
+pytesseract
+Pillow
+
+# semantic memory
+scikit-learn
+
+# v1 API additions
+httpx          # needed for FastAPI's TestClient in tests
+psutil         # optional: enables real CPU/RAM figures in /v1/system/status
+python-multipart  # required by FastAPI for the multipart upload endpoints
+
+# optional, bring-your-own-credentials modules (install only what you use)
+# faster-whisper      # voice_pipeline.py transcribe()
+# pyautogui           # desktop_automation.py

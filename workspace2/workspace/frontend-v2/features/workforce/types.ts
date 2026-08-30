@@ -1,0 +1,4 @@
+export type AgentState = "created" | "initializing" | "ready" | "busy" | "waiting" | "blocked" | "recovering" | "completed" | "cancelled" | "failed" | "retired";
+export type WorkforceAgent = { agent_id: string; name: string; kind: string; lifecycle: AgentState; parent_agent_id?: string | null; capabilities?: { capability_id: string }[]; health?: { score?: number; cpu_percent?: number; memory_mb?: number; execution_seconds?: number; queue_size?: number; heartbeat_at?: number }; current_task?: string; mission_id?: string; model?: string; brief?: string; metadata?: Record<string, string> };
+export type AgentCommunication = { message_id: string; message_type: string; sender_agent_id: string; recipient_agent_id?: string | null; content: string; correlation_id?: string; task_id?: string; timestamp?: string };
+export type WorkforceState<T> = { available: boolean; data: T; reason?: string };

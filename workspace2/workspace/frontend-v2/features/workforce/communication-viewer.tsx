@@ -1,0 +1,3 @@
+"use client";
+import type { AgentCommunication } from "./types";
+export function CommunicationViewer({ communications }: { communications: AgentCommunication[] }) { return <section className="workforce-section"><h3>Communication history</h3>{communications.length ? <ol className="communications">{communications.map(message => <li key={message.message_id}><time>{message.timestamp ? new Date(message.timestamp).toLocaleTimeString() : "Unavailable"}</time><strong>{message.sender_agent_id}</strong><span>→ {message.recipient_agent_id ?? "broadcast"}</span><em>{message.message_type}</em><p>{message.content}</p></li>)}</ol> : <p className="workforce-unavailable">Agent communication events are not available from this deployment.</p>}</section>; }

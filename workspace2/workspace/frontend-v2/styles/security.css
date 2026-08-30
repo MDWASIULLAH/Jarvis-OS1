@@ -1,0 +1,137 @@
+/* ==========================================================================
+   SECURITY FRAMEWORK
+   New feature: policies, risk evaluation, approval gates, trust, audit trail.
+   ========================================================================== */
+.security-center { max-width: 1500px; margin: 0 auto; padding: 20px 24px 40px; }
+.security-center > header { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; padding: 4px 2px 18px; }
+.security-center > header > div { min-width: 0; }
+.security-center > header > div > span { font-size: 11px; font-weight: 600; color: var(--label-accent); text-transform: uppercase; letter-spacing: .1em; }
+.security-center h1 { margin: 4px 0 6px; font-size: 26px; font-weight: 700; letter-spacing: -.02em; color: var(--text-main); }
+.security-center > header p { margin: 0; font-size: 13px; color: var(--text-secondary); }
+.security-center > header button {
+  display: inline-flex; align-items: center; gap: 6px; flex: 0 0 auto;
+  padding: 8px 12px; border: 1px solid var(--border-color); border-radius: 8px;
+  background: var(--bg-card); color: var(--text-main); font-size: 12px; font-weight: 500;
+  white-space: nowrap; cursor: pointer; box-shadow: var(--shadow-sm);
+}
+.security-center > header button:hover { background: var(--bg-pill); }
+
+.security-api-notice {
+  margin: 0 0 14px; padding: 10px 14px; border: 1px solid var(--status-warn-border);
+  border-radius: 8px; background: var(--status-warn-bg); color: var(--status-warn-text); font-size: 12px;
+}
+.security-hint { margin: 0; color: var(--text-muted); font-size: 12px; line-height: 1.55; }
+
+.security-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin: 0 0 14px; }
+.security-stats > div {
+  min-width: 0; padding: 11px 13px; border: 1px solid var(--border-color); border-radius: 10px;
+  background: var(--bg-card); box-shadow: var(--shadow-sm);
+}
+.security-stats span { display: block; color: var(--text-muted); font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.security-stats strong { display: block; margin-top: 3px; color: var(--text-main); font-size: 17px; font-weight: 700; font-variant-numeric: tabular-nums; }
+
+.security-layout { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 14px; align-items: start; }
+.security-side { display: grid; gap: 14px; min-width: 0; }
+.security-card {
+  min-width: 0; padding: 16px; border: 1px solid var(--border-color); border-radius: 12px;
+  background: var(--bg-card); box-shadow: var(--shadow-sm);
+}
+.security-card h2 { display: flex; align-items: center; gap: 6px; margin: 0 0 8px; font-size: 15px; font-weight: 600; color: var(--text-main); }
+
+/* Evaluation form ---------------------------------------------------------- */
+.security-form { display: grid; gap: 10px; margin: 12px 0 0; }
+.security-form label { display: grid; gap: 5px; min-width: 0; font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: .04em; }
+.security-form input[type="text"], .security-form input:not([type]), .security-form select {
+  width: 100%; min-width: 0; padding: 8px 10px; border: 1px solid var(--border-color);
+  border-radius: 8px; background: var(--bg-input); color: var(--text-main);
+  font-family: inherit; font-size: 13px; font-weight: 400; text-transform: none; letter-spacing: normal;
+}
+.security-form input:focus, .security-form select:focus { outline: 0; border-color: var(--border-focus); box-shadow: 0 0 0 3px color-mix(in srgb, var(--border-focus) 22%, transparent); }
+
+.security-permissions { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 10px; border: 1px solid var(--border-subtle); border-radius: 9px; background: var(--surface-inset); }
+.security-permissions legend { padding: 0 4px; color: var(--text-muted); font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
+.security-permissions label {
+  display: inline-flex; align-items: center; gap: 5px; padding: 4px 9px;
+  border: 1px solid var(--border-color); border-radius: 999px; background: var(--bg-card);
+  color: var(--text-secondary); font-size: 11px; font-weight: 500; text-transform: none; letter-spacing: normal; cursor: pointer;
+}
+.security-permissions label.checked { border-color: transparent; background: var(--status-ok-bg); color: var(--status-ok-text); font-weight: 600; }
+.security-permissions input { width: 12px; height: 12px; margin: 0; accent-color: var(--accent-primary); }
+
+.security-form-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.security-form-actions button, .security-approval-actions button, .security-trust button {
+  padding: 8px 14px; border: 1px solid var(--border-color); border-radius: 8px;
+  background: var(--bg-card); color: var(--text-main); font-size: 12px; font-weight: 600; white-space: nowrap; cursor: pointer;
+}
+.security-form-actions button.primary, .security-approval-actions button.primary, .security-trust button.primary { border-color: transparent; background: var(--accent-primary); color: #fff; }
+.security-approval-actions button.danger { border-color: transparent; background: var(--status-bad-bg); color: var(--status-bad-text); }
+.security-form-actions button:hover:not(:disabled), .security-approval-actions button:hover:not(:disabled), .security-trust button:hover:not(:disabled) { filter: brightness(1.07); }
+.security-form-actions button:disabled, .security-approval-actions button:disabled, .security-trust button:disabled { opacity: .55; cursor: not-allowed; filter: none; }
+
+/* Verdict ------------------------------------------------------------------ */
+.security-verdict { margin-top: 14px; padding: 12px 14px; border: 1px solid var(--border-subtle); border-radius: 10px; background: var(--surface-inset); }
+.security-verdict-head { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+.security-rationale { display: grid; gap: 3px; margin: 0 0 8px; padding-left: 16px; color: var(--text-secondary); font-size: 11px; line-height: 1.5; }
+.security-threats { display: grid; gap: 4px; margin: 0; padding: 0; list-style: none; }
+.security-threats li { display: flex; justify-content: space-between; gap: 8px; min-width: 0; padding: 6px 9px; border-radius: 7px; background: var(--status-bad-bg); color: var(--status-bad-text); font-size: 11px; }
+.security-threats strong { flex: 0 0 auto; font-weight: 700; text-transform: capitalize; }
+.security-threats span { min-width: 0; text-align: right; overflow-wrap: anywhere; }
+
+/* Approvals, policies, trust, incidents ------------------------------------ */
+.security-approvals, .security-policies, .security-incidents, .security-trust-list { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.security-approvals li { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-width: 0; padding: 8px 10px; border: 1px solid var(--border-subtle); border-radius: 8px; background: var(--surface-inset); }
+.security-approvals > li > div:first-child { min-width: 0; }
+.security-approvals strong { display: block; color: var(--text-main); font-family: var(--font-mono); font-size: 11px; font-weight: 700; }
+.security-approvals em { color: var(--text-muted); font-size: 10px; font-style: normal; }
+.security-approval-actions { display: flex; flex: 0 0 auto; gap: 6px; }
+.security-approval-actions button { padding: 5px 11px; font-size: 11px; }
+
+.security-policies li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 3px 8px; min-width: 0; padding: 8px 10px; border: 1px solid var(--border-subtle); border-radius: 8px; background: var(--surface-inset); }
+.security-policies strong { min-width: 0; color: var(--text-main); font-size: 12px; font-weight: 600; text-transform: capitalize; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.security-policies .studio-tag { justify-self: end; }
+.security-policies em { grid-column: 1 / -1; color: var(--text-muted); font-size: 10px; font-style: normal; }
+
+.security-trust { grid-template-columns: minmax(0, 1fr) minmax(80px, 110px) 38px auto; align-items: center; }
+.security-trust input[type="range"] { min-width: 0; accent-color: var(--accent-primary); }
+.security-trust > span { color: var(--text-main); font-size: 11px; font-weight: 700; text-align: right; font-variant-numeric: tabular-nums; }
+.security-trust button { padding: 7px 12px; }
+.security-trust-list li { display: grid; grid-template-columns: minmax(0, 1fr) minmax(60px, 100px) 36px; gap: 8px; align-items: center; min-width: 0; }
+.security-trust-list strong { min-width: 0; color: var(--text-main); font-size: 11px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.security-trust-list em { color: var(--text-muted); font-size: 10px; font-style: normal; text-align: right; font-variant-numeric: tabular-nums; }
+
+.security-incidents li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 3px 8px; min-width: 0; padding: 8px 10px; border: 1px solid var(--border-subtle); border-radius: 8px; background: var(--surface-inset); }
+.security-incidents strong { min-width: 0; color: var(--text-main); font-size: 12px; font-weight: 600; overflow-wrap: anywhere; }
+.security-incidents em { grid-column: 1 / -1; color: var(--text-secondary); font-size: 10px; font-style: normal; line-height: 1.45; }
+
+/* Audit trail -------------------------------------------------------------- */
+.security-audit { margin-top: 14px; }
+.security-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 10px; }
+.security-toolbar h2 { flex: 0 0 auto; margin: 0; }
+.security-toolbar label {
+  display: flex; flex: 1 1 160px; min-width: 0; align-items: center; gap: 6px;
+  padding: 7px 9px; border: 1px solid var(--border-color); border-radius: 8px;
+  background: var(--bg-input); color: var(--text-muted);
+}
+.security-toolbar input { width: 100%; min-width: 0; border: 0; outline: 0; background: transparent; color: var(--text-main); font-size: 12px; }
+.security-toolbar > span { flex: 0 0 auto; color: var(--text-muted); font-size: 11px; font-variant-numeric: tabular-nums; }
+
+.security-audit-list { display: grid; gap: 4px; margin: 0; padding: 0; max-height: 340px; overflow-y: auto; list-style: none; }
+.security-audit-list li {
+  display: grid; grid-template-columns: 68px minmax(0, 200px) minmax(0, 1fr); gap: 8px; align-items: baseline;
+  min-width: 0; padding: 6px 9px; border: 1px solid var(--border-subtle); border-radius: 7px; background: var(--surface-inset);
+}
+.security-audit-list time { color: var(--text-muted); font-size: 10px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.security-audit-list strong { min-width: 0; color: var(--label-accent); font-size: 11px; font-weight: 600; text-transform: capitalize; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.security-audit-list span { min-width: 0; color: var(--text-secondary); font-size: 11px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+@media (max-width: 1000px) {
+  .security-layout { grid-template-columns: 1fr; }
+}
+@media (max-width: 760px) {
+  .security-center { padding: 16px 14px 32px; }
+  .security-center > header { display: block; }
+  .security-center > header button { margin-top: 12px; }
+  .security-trust { grid-template-columns: 1fr; }
+  .security-audit-list li { grid-template-columns: 1fr; }
+  .security-audit-list span { white-space: normal; }
+}

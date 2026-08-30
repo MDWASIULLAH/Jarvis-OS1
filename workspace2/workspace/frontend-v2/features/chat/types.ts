@@ -1,0 +1,3 @@
+import type { ChatMediaItem, ChatRoute, ChatSource } from "./chat-service";
+
+export type ChatAttachment={id:string;file:File;status:"queued"|"ready"|"failed";progress:number};export type ExecutionTrace={type:string;createdAt:number;detail:string};export type ChatMessage={id:string;role:"user"|"assistant"|"system";content:string;createdAt:number;attachments:ChatAttachment[];execution?:ExecutionTrace[];failed?:boolean;media?:ChatMediaItem[];sources?:ChatSource[];route?:ChatRoute;attachmentNames?:string[]};export type Conversation={id:string;title:string;messages:ChatMessage[];pinned:boolean;favorite:boolean;folder?:string;tags?:string[];archived?:boolean;updatedAt:number};

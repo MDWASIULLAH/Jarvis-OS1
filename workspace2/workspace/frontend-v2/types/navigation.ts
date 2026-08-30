@@ -1,0 +1,1 @@
+import type {LucideIcon} from "lucide-react";export type NavigationId="chat"|"workspace"|"mission-control"|"neural-nexus"|"operations"|"development-studio"|"agents"|"ai-studio"|"memory"|"knowledge"|"reflection"|"evolution"|"search"|"installation"|"security"|"company"|"plugins"|"settings";export type NavigationItem={id:NavigationId;label:string;icon:LucideIcon};

@@ -1,0 +1,141 @@
+/* ============================================================
+   JARVIS — Image Viewer Styles
+   Full-featured image viewer with zoom, pan, rotate, download
+   Glassmorphism design, smooth transitions
+   ============================================================ */
+
+.img-viewer-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10050;
+  background: rgba(5, 3, 1, 0.96);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+.img-viewer-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.img-viewer-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+  background: rgba(22, 14, 10, 0.92);
+  border-bottom: 1px solid rgba(255, 156, 42, 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 2;
+  flex-shrink: 0;
+}
+
+.iv-btn {
+  width: 32px;
+  height: 32px;
+  border: 1px solid rgba(255, 186, 90, 0.2);
+  border-radius: 8px;
+  background: rgba(255, 156, 42, 0.08);
+  color: rgba(255, 216, 126, 0.8);
+  font-size: 16px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+.iv-btn:hover {
+  background: rgba(255, 186, 90, 0.18);
+  color: #ffb53d;
+  border-color: rgba(255, 156, 42, 0.5);
+  transform: scale(1.05);
+}
+.iv-btn:active {
+  transform: scale(0.95);
+}
+
+.iv-close {
+  margin-left: auto;
+  font-size: 18px;
+  border-color: rgba(255, 80, 80, 0.25);
+  color: rgba(255, 130, 130, 0.8);
+}
+.iv-close:hover {
+  background: rgba(255, 60, 60, 0.2);
+  color: #ff6b6b;
+  border-color: rgba(255, 60, 60, 0.5);
+}
+
+.iv-counter {
+  font-size: 11px;
+  color: rgba(255, 216, 126, 0.5);
+  padding: 0 8px;
+  letter-spacing: 1px;
+}
+
+.iv-spacer {
+  flex: 1;
+}
+
+.img-viewer-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.img-viewer-image {
+  max-width: none;
+  max-height: none;
+  cursor: grab;
+  transition: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+.img-viewer-image:active {
+  cursor: grabbing;
+}
+
+.img-viewer-info {
+  padding: 8px 16px;
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: rgba(255, 186, 90, 0.4);
+  text-align: center;
+  border-top: 1px solid rgba(255, 156, 42, 0.1);
+  background: rgba(22, 14, 10, 0.6);
+}
+
+/* ---- Chat image clickable enhancement ---- */
+.trace-media img {
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  border-radius: 6px !important;
+  max-width: 200px !important;
+}
+.trace-media img:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 16px rgba(255, 186, 90, 0.3);
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 600px) {
+  .iv-btn {
+    width: 28px;
+    height: 28px;
+    font-size: 14px;
+    border-radius: 6px;
+  }
+  .img-viewer-toolbar {
+    padding: 8px 10px;
+    gap: 4px;
+  }
+}
